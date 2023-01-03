@@ -50,6 +50,18 @@ RUN apk add --no-cache --virtual buildtools build-base linux-headers udev python
     /tmp/remove_native_gpio.sh && \
     cp -R node_modules prod_node_modules
 
+RUN apk add g++ \
+    build-base \
+    cairo-dev \
+    jpeg-dev \
+    pango-dev \
+    musl-dev \
+    giflib-dev \
+    pixman-dev \
+    pangomm-dev \
+    libjpeg-turbo-dev \
+    freetype-dev
+
 #### Stage RELEASE #####################################################################################################
 FROM base AS RELEASE
 ARG BUILD_DATE
@@ -79,7 +91,7 @@ RUN chown -R node-red:root /usr/src/node-red && \
     /tmp/install_devtools.sh && \
     rm -r /tmp/*
 
-RUN npm config set cache /data/.npm --global 
+RUN npm config set cache /data/.npm --global
 RUN npm config set python `which python3` --global
 
 USER node-red
